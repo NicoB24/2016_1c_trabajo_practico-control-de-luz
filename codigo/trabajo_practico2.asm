@@ -11,7 +11,7 @@ PROGRAMA:
 	OUT DDRD,R16 ;Configura todo el puerto D como salidas
 	OUT DDRB,R16 ;Configura todo el puerto B como salidas
 	LDI R16,0 ;
-	OUT DDRC,R16 ;Configuro todo el puerto C como salidas
+	OUT DDRC,R16 ;Configuro todo el puerto C como entradas
 	;Configuracion del ADC
 	LDS R16,ADMUX;
 	ORI R16,((1<<REFS0)|(1<<MUX2)|(1<<MUX0));
@@ -80,7 +80,8 @@ CONVERSION:
 RETARDO:
 	LDI R20,132
 	LDI R21,150
-	LDI R22,8
+	LDI R22,8
+
 LOOP:
 	DEC R20
 	BRNE LOOP
