@@ -1,7 +1,13 @@
 .INCLUDE "M328PDEF.INC"
-.ORG $00
-JMP PROGRAMA // Reset
+	
+	.cseg
+	.ORG $00
+	JMP PROGRAMA // Reset
+	
+	;.org INT0addr Si ocurre una interrupcion en el pin que tiene INT0, salta a la rutina INT_EXT_0, hay que armar la rutina
+	;rjmp INT_EXT_0 Rutina de interrupcion
 
+	.org INT_VECTORS_SIZE ; Saltea  los vectores de interrupcion
 PROGRAMA:
 	LDI R16,HIGH(RAMEND)
 	OUT SPH,R16
