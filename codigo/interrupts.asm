@@ -63,7 +63,7 @@ wait: RJMP wait; Espera hasta que el sensor detecte movimiento
 
 
 ;*************************************************************************************
-; Iterrupcion externa 0, enciende un led y luego de un tiempo lo apaga.
+; Iterrupcion externa 0, enciende un led, activa las interrupciones, y activa el timer
 ;
 ;Entrada: -				
 ;Salida: -					
