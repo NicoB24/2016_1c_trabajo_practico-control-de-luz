@@ -42,7 +42,7 @@ configure_timers:
 	LDI R25,0
 	ORI R25,((0<<CS00)|(1<<CS01)|(0<<CS02)); Se configura la frecuencia
 	OUT TCCR0B,R25
-	RET
+
 
 
 ;Dirección siguiente a la ultima interrupción
