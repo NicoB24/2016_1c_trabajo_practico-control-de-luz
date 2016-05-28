@@ -6,10 +6,10 @@
 
 ;Direcciones de los vectores de interrupcion
 
-.ORG 0x0002; Direcci髇 del vector INT0
+.ORG 0x0002; Direcci贸n del vector INT0
 	JMP ext_int0;
 
-.ORG 0x0012; Direcci髇 del vector TIMER2 OVF
+.ORG 0x0012; Direcci贸n del vector TIMER2 OVF
 	JMP tim2_ovf;
 
 		
@@ -48,7 +48,7 @@ configure_timers:
 
 
 
-;Direcci髇 siguiente a la ultima interrupci髇
+;Direcci贸n siguiente a la ultima interrupci贸n
 .ORG 0x0033
 	
 	SEI
@@ -71,12 +71,12 @@ wait: RJMP wait; Espera hasta que el sensor detecte movimiento
 ;*************************************************************************************
 
 ext_int0:
-	;Se activa el Timer/counter2
+	SBI PORTC,5;
 	SEI
+	;Se activa el Timer/counter2
 	LDI R25,0
 	ORI R25,(1<<TOIE2)
 	OUT TOIE2,R25; Registro TIMSK2
-	SBI PORTC,5;
 	RETI
 
 
