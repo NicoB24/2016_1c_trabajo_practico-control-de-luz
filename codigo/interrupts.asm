@@ -66,7 +66,7 @@ inicio:
 	SEI ;Se activa nuevamente el flag I para habilitar las interrupciones
 	;Enceder luz de un led
 	LDI R25,0xFF
-	OUT PORTC,R25
+	OUT DDRC,R25
 	SBI PORTC,5;
 
 here: RJMP here
