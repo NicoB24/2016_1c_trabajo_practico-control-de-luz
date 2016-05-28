@@ -3,10 +3,10 @@
 .cseg
 ;Direcciones de los vectores de interrupcion
 
-.ORG 0x0002; Direcci髇 del vector INT0
+.ORG 0x0002; Direcci贸n del vector INT0
 	JMP inicio
 
-.ORG 0x0012; Direcci髇 del vector TIMER2 OVF
+.ORG 0x0012; Direcci贸n del vector TIMER2 OVF
 	JMP tim2_ovf;
 
 		
@@ -45,8 +45,8 @@ configure_timers:
 
 
 
-;Direcci髇 siguiente a la ultima interrupci髇
-.ORG 0x0032
+;Direcci贸n siguiente a la ultima interrupci贸n
+.ORG 0x0033
 
 wait: RJMP wait; Espera hasta que el sensor detecte movimiento
 
@@ -83,6 +83,6 @@ here: RJMP here
 ;Registros utilizados:				Ninguna
 ;*************************************************************************************
 tim2_ovf:
-	;Apagar luz del encendido led
+	;Apagar luz del led encendido
 	CBI PORTC,5
 	reti	
