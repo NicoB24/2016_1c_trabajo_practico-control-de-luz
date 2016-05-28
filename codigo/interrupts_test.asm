@@ -3,10 +3,10 @@
 .cseg
 ;Direcciones de los vectores de interrupcion
 
-.ORG 0x0002; Direcci髇 del vector INT0
+.ORG 0x0002; Direcci贸n del vector INT0
 	JMP inicio
 
-.ORG 0x0020; Direcci髇 del vector TIMER0 OVF
+.ORG 0x0020; Direcci贸n del vector TIMER0 OVF
 	JMP tim0_ovf;
 
 		
@@ -53,7 +53,7 @@ configure_timers:
 ;Registros utilizados: R25
 ;*************************************************************************************
 
-;Direcci髇 siguiente a la ultima interrupci髇
+;Direcci贸n siguiente a la ultima interrupci贸n
 .ORG 0x0032
 
 wait: RJMP wait; Espera hasta que el sensor detecte movimiento
