@@ -2,7 +2,7 @@
 	
 	.cseg
 	.ORG $00
-	JMP PROGRAMA // Reset
+	JMP PROGRAMA
 	
 	;.org INT0addr Si ocurre una interrupcion en el pin que tiene INT0, salta a la rutina INT_EXT_0, hay que armar la rutina
 	;rjmp INT_EXT_0 Rutina de interrupcion
