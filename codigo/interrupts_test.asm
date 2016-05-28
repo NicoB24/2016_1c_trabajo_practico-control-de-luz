@@ -6,8 +6,8 @@
 .ORG 0x0002; Dirección del vector INT0
 	JMP inicio
 
-.ORG 0x0020; Dirección del vector TIMER0 OVF
-	JMP tim0_ovf;
+.ORG 0x0012; Dirección del vector TIMER0 OVF
+	JMP tim2_ovf;
 
 		
 
@@ -38,10 +38,10 @@ configure_ext_int:
 ;*************************************************************************************
 
 configure_timers:
-	;Se configura Timer/counter0
+	;Se configura Timer/counter2
 	LDI R25,0
-	ORI R25,((0<<CS00)|(1<<CS01)|(0<<CS02)); Se configura la frecuencia
-	OUT TCCR0B,R25
+	ORI R25,((0<<CS22)|(1<<CS21)|(0<<CS20)); Se configura la frecuencia
+	OUT TCCR2B,R25
 
 
 
@@ -59,10 +59,10 @@ wait: RJMP wait; Espera hasta que el sensor detecte movimiento
 ;*************************************************************************************
 
 inicio:
-	;Se activa el Timer/counter0
+	;Se activa el Timer/counter2
 	LDI R25,0
-	ORI R25,(1<<TOIE0)
-	STS 0x6e,R25; Registro TIMSK0
+	ORI R25,(1<<TOIE2)
+	OUT TOIE2,R25; Registro TIMSK2
 	SEI ;Se activa nuevamente el flag I para habilitar las interrupciones
 	;Enceder luz de un led
 here: RJMP here
@@ -71,13 +71,13 @@ here: RJMP here
 
 
 ;*************************************************************************************
-; Handler que se llama cuando el timer 0 sufre un overflow
+; Handler que se llama cuando el timer 2 sufre un overflow
 ;
 ;
 ;Entrada: 					Ninguna
 ;Salida: 					Ninguna
 ;Registros utilizados:				Ninguna
 ;*************************************************************************************
-tim0_ovf:
+tim2_ovf:
 	;Apagar luz del encendido led
 	reti	
