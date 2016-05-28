@@ -45,6 +45,11 @@ configure_timers:
 	RET
 
 
+;Dirección siguiente a la ultima interrupción
+.ORG 0x0032
+
+wait: RJMP wait; Espera hasta que el sensor detecte movimiento
+
 ;*************************************************************************************
 ; Funcion de prueba, enciende un led y luego de un tiempo los apaga.
 ;
@@ -52,11 +57,6 @@ configure_timers:
 ;Salida: -					
 ;Registros utilizados: R25
 ;*************************************************************************************
-
-;Dirección siguiente a la ultima interrupción
-.ORG 0x0032
-
-wait: RJMP wait; Espera hasta que el sensor detecte movimiento
 
 inicio:
 	;Se activa el Timer/counter0
@@ -76,7 +76,7 @@ here: RJMP here
 ;
 ;Entrada: 					Ninguna
 ;Salida: 					Ninguna
-;Registros utilizados:		Ninguna
+;Registros utilizados:				Ninguna
 ;*************************************************************************************
 tim0_ovf:
 	;Apagar luz del encendido led
