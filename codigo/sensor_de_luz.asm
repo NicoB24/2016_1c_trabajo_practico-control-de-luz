@@ -12,7 +12,7 @@
 ;Direcciones de los vectores de interrupcion
 .ORG 0x001A
 	JMP TIMER1_OVF
-.ORG 0x0002; Dirección del vector INT0
+.ORG 0x0002; DirecciÃ³n del vector INT0
 	JMP ext_int0;
 ;****************************************************
 ;Configuracion interrupcion del sensor de movimiento
@@ -78,7 +78,7 @@ CONFIGURACION_PINES:
 HERE:
 	LDS auxiliar_adc_1,ADCSRA;
 	ORI auxiliar_adc_1,(1<<ADSC)
-	STS ADCSRA,R16 ;
+	STS ADCSRA,auxiliar_adc_1;
 CONVERSION:
 	LDS auxiliar_adc_1,ADCSRA ;
 	SBRC auxiliar_adc_1,4;
