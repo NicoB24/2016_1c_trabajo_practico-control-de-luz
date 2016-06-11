@@ -146,6 +146,7 @@ CONVERSION:
 	SBI PORTB,1
 	SBI PORTB,2
 	RJMP ENCIENDO; Tengo dudas de esta parte, se va a quedar haciendo esto hasta que salte overflow, pero nose si llega al programa principal
+	;con el RET de la rutina de overflow
 	RET	
 
 	
