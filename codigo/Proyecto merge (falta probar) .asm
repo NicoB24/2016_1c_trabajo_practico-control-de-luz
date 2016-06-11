@@ -11,10 +11,10 @@
 ;Direcciones de los vectores de interrupcion
 .ORG 0x001A
 	JMP TIMER1_OVF
-.ORG 0x0002; Direcci髇 del vector INT0
+.ORG 0x0002; Direcci贸n del vector INT0
 	JMP EXT_INT0;
 
-.ORG 0x0033; Direcci髇 posterior al ultimo vector de interrupci髇 
+.ORG 0x0033; Direcci贸n posterior al ultimo vector de interrupci贸n 
 ;****************************************************
 ;Configuracion interrupcion del sensor de movimiento
 ;****************************************************
@@ -93,7 +93,7 @@ HERE:RJMP HERE; Espera hasta que el sensor detecte movimiento
 ;Interrupcion del sensor de movimiento
 ;**************************************************************
 EXT_INT0:
-	;Habilito la interrupci髇 por overflow, y desactivo la interrupci髇 del sensor
+	;Habilito la interrupci贸n por overflow, y desactivo la interrupci贸n del sensor
 	ORI auxiliar_2,(0<<INT0)
 	OUT EIMSK,auxiliar_2
 	SEI
@@ -145,7 +145,7 @@ CONVERSION:
 	SBI PORTB,0 ;Enciendo 3 
 	SBI PORTB,1
 	SBI PORTB,2
-	RJMP ENCIENDO
+	RJMP ENCIENDO; Tengo dudas de esta parte, se va a quedar haciendo esto hasta que salte overflow, pero nose si llega al programa principal
 	RET	
 
 	
@@ -161,7 +161,7 @@ LOOP:
 	BRNE LOOP
 	DEC R22
 	BRNE LOOP
-	RET
+	RETI
 
 RETARDO_PWM:
 	LDI R20,255
@@ -185,11 +185,11 @@ TIMER1_OVF:
 	CBI PORTB,0
 	CBI PORTB,1
 	CBI PORTB,2
-	;Habilito la interrupci髇 del sensor nuevamente
+	;Habilito la interrupci贸n del sensor nuevamente
 	LDI auxiliar_2,0
 	ORI auxiliar_2,(1<<INT0)
 	OUT EIMSK,auxiliar_2
-	RET
+	RETI
 	
 	
 	
