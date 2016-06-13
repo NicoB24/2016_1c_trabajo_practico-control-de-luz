@@ -11,20 +11,20 @@
 ;Direcciones de los vectores de interrupcion
 .ORG 0x001A
 	JMP TIMER1_OVF
-.ORG 0x0002; Direcci髇 del vector INT0
+.ORG 0x0002; Direcci贸n del vector INT0
 	JMP EXT_INT0;
 
-.ORG 0x0033; Direcci髇 posterior al ultimo vector de interrupci髇 
+.ORG 0x0033; Direcci贸n posterior al ultimo vector de interrupci贸n 
 config_init:
-	;Inicilizaci髇 del stack
+	;Inicilizaci贸n del stack
 	LDI R16,HIGH(RAMEND)
 	OUT SPH,R16
 	LDI R16,LOW(RAMEND)
 	OUT SPL,R16
 
 ;***************************************************************************************************
-;Configuracion de la interrupci髇 externa
-;El pin INT' se configura de manera de activar la interrupcion por flanco ascendente
+;Configuracion de la interrupci贸n externa
+;El pin INT0 se configura de manera de activar la interrupcion por flanco ascendente
 ;***************************************************************************************************
 CONFIGURACION_SENSOR:	
 	LDI auxiliar,0
@@ -93,7 +93,7 @@ HERE:RJMP HERE; Espera hasta que el sensor detecte movimiento
 ;Interrupcion del sensor de movimiento
 ;**************************************************************
 EXT_INT0:
-	;Se desactiva la interrupci髇 del sensor y se activa por overflow
+	;Se desactiva la interrupci贸n del sensor y se activa por overflow
 	ORI auxiliar_2,(0<<INT0)
 	OUT EIMSK,auxiliar_2
 	SEI
@@ -184,7 +184,7 @@ TIMER1_OVF:
 	CBI PORTB,0
 	CBI PORTB,1
 	CBI PORTB,2
-	;Habilito la interrupci髇 del sensor nuevamente
+	;Habilito la interrupci贸n del sensor nuevamente
 	SEI
 	LDI auxiliar_2,0
 	ORI auxiliar_2,(1<<INT0)
