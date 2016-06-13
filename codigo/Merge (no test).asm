@@ -79,7 +79,7 @@ CONFIGURACION_PINES:
 
 
 ;**********************	
-;Programa principal	
+;Inicio
 ;**********************
 	LDI R16,0xFF ; R16 a unos
 	OUT DDRB,R16 ;Configura todo el puerto B como salidas
