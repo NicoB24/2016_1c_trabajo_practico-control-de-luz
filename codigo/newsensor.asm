@@ -34,18 +34,19 @@ config_init:
 	LDI auxiliar,0
 	ORI auxiliar,(1<<INT0)
 	OUT EIMSK,auxiliar
-	;PORTB como salida
-	LDI auxiliar,0xFF
-	OUT DDRB,auxiliar
 
 ;***************************************************************************************************
 ;Configuracion del timer de la interrupcion
 ;El timer se configura para overflow de manera de habilitar la interrupcion del sensor de movimiento
 ;***************************************************************************************************
 config_timer:
-	LDI auxiliar,0
-	ORI auxiliar,((CS12<<1)|(CS11<<0)|(CS10<<1))
+	LDS auxiliar,TCCR1B
+	ANDI auxiliar,((CS12<<0)|(CS11<<0)|(CS10<<0))
 	STS TCCR1B,auxiliar	
+	LDI auxiliar_2,0
+	STS TCNT1H,auxiliar_2
+	STS TCNT1L,auxiliar_2
+	
 ;**************************************************************
 ;Configuracion del pwm en fast mode 8 bits
 ;**************************************************************
@@ -76,27 +77,32 @@ CONFIGURACION_ADC:
 CONFIGURACION_PINES:
 	SBI DDRD,6 ;El pin del pwm es (PCINT22/OC0A/AIN0) PD6
 	CBI DDRC,5;Configuro el pin PC5 (ADC5/SCL/PCINT13) como entrada	
-	
+	SBI DDRB,1;Configuro el led verde para debugear
+	SBI DDRB,2;Configuro el led amarillo para debugear
 
 ;**********************	
 ;Programa principal	
 ;PRUEBA DEL ADC CON EL PWM E INTERRUPCIONES
 ;**********************
-	LDI estado_sensor,0;
+	LDI estado_sensor,0;Inicilizo el estado del sensor
 	SEI;Habilito las interrupciones
-
+CBI PORTB,2
 HERE:
+	SBI PORTB,1
+	;CBI PORTB,2
+HERE_IT:	
 	SBRS estado_sensor,0
-	RJMP HERE
+	RJMP HERE_IT
 	RCALL DESACTIVAR_SENSOR
-	SBI PORTB,1;
+	CBI PORTB,1;
 	RCALL HABILITAR_TIMER
 
-SENSAR:	
-	RCALL SENSAR_LUZ	
-	RCALL MODULACION_LED
-	SBRC estado_sensor,0
-	RJMP SENSAR
+SENSAR:
+	SBI PORTB,2
+	SENSAR_IT:RCALL SENSAR_LUZ	
+			  RCALL MODULACION_LED
+			  SBRC estado_sensor,0
+			  RJMP SENSAR_IT
 	RCALL APAGAR_LED_CONTROL
 	RCALL DESACTIVAR_TIMER
 	RCALL HABILITAR_SENSOR
@@ -150,8 +156,12 @@ HABILITAR_SENSOR:
 
 DESACTIVAR_TIMER:
 	CLI
+	LDS auxiliar_2,TCCR1B
+	ANDI auxiliar_2,((0<<CS12)|(0<<CS11)|(0<<CS10))
+	STS TCCR1B,auxiliar_2
 	LDI auxiliar_2,0;Desactivo la interrupcion del timer overflow
 	STS TIMSK1,auxiliar_2;
+	CBI PORTB,2
 	SEI
 	RET
 
@@ -159,6 +169,9 @@ HABILITAR_TIMER:
 	LDI auxiliar_2,0
 	STS TCNT1H,auxiliar_2
 	STS TCNT1L,auxiliar_2
+	LDS auxiliar_2,TCCR1B
+	ORI auxiliar_2,((1<<CS12)|(0<<CS11)|(1<<CS10))
+	STS TCCR1B,auxiliar_2
 	LDI auxiliar_2,1;
 	STS TIMSK1,auxiliar_2;
 	RET
@@ -184,4 +197,3 @@ TIMER1_OVF:
 	POP auxiliar_sreg
 	OUT SREG,auxiliar_sreg
 	RETI
-
